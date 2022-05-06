@@ -16,7 +16,12 @@ export default function Table(props) {
           {data?.map(row => {
             return (
               <tr key={row[primaryKey]}>
-                {fields?.map((field, index) => <td key={`${index}-${data[field]}`}>{row[field.key]}</td>)}
+                {fields?.map((field, index) => {
+                  const key = `${index}-${data[field]}`;
+                  return field?.formatter
+                    ? <td key={key}>{field.formatter(data[field.key])}</td>
+                    : <td key={key}>{row[field.key]}</td>;
+                })}
               </tr>
             )
           })}

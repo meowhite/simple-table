@@ -28,7 +28,6 @@ function App() {
         title: 'Date created',
         key: 'date',
         formatter: value => (new Date(Number(value))).toDateString(),
-        isMetadata: true,
       },
     ],
     items: data,
