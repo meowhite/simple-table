@@ -1,23 +1,44 @@
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import { data } from './data'
+import Table from './Table';
+
 
 function App() {
+
+  const config = {
+    fields: [
+      {
+        title: 'ID',
+        key: '_id',
+      },
+      {
+        title: 'Full Name',
+        key: 'name',
+        isSortable: true,
+        isTitle: true,
+      },
+      {
+        title: 'Email Address',
+        key: 'email',
+        isSortable: true,
+        isTagline: true,
+      },
+      {
+        title: 'Date created',
+        key: 'date',
+        formatter: value => (new Date(Number(value))).toDateString(),
+        isMetadata: true,
+      },
+    ],
+    items: data,
+    primaryKey: '_id',
+    style: {},
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Table data={data} config={config} />
     </div>
   );
 }

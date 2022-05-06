@@ -1,0 +1,19 @@
+.fn-table {
+  border: none;
+  border-collapse: collapse;
+  width: 100%;
+
+  td {
+    border: none;
+    padding: 5px 7.5px;
+  }
+
+  tbody>tr {
+    background-color: #e6e6e6;
+  }
+
+  tbody>tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+
+}
