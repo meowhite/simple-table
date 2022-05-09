@@ -11,6 +11,7 @@ function App() {
       {
         title: 'ID',
         key: '_id',
+        isSortable: true,
       },
       {
         title: 'Full Name',
@@ -30,6 +31,10 @@ function App() {
         formatter: value => (new Date(Number(value))).toDateString(),
       },
     ],
+    defaultSort: {
+      field: 'name',
+      type: 'asc',
+    },
     items: data,
     primaryKey: '_id',
     style: {},
