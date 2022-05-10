@@ -32,10 +32,19 @@ export default function TableController(params = {}) {
     setTableData(items)
   }
 
-  const onFilter = () => {
-    // const filterFields = tableData?.filter(row => )
+  /**
+   * filterCondition:
+   * [{key: 'name', value: 'cee'},{key: 'email', value: 'hello'}, ]
+   */
+  // https://replit.com/@hungdev/ReliableEvergreenArraylist#index.js:1:6
+  const onFilter = (filterCondition) => {
+    const filterData = data.filter(ele => filterCondition.find(con => ele[con?.key]?.includes(con?.value)))
+    setTableData(filterData)
   }
 
+  /**
+   * Search all field in table
+   */
   const onSearch = (searchValue) => {
     const searchFields = data?.filter(row => Object.entries(row).some(entry => String(entry[1]).toLowerCase().includes(searchValue)))
     setTableData(searchValue ? searchFields : data)
@@ -44,5 +53,5 @@ export default function TableController(params = {}) {
 
 
 
-  return ({ sortCriteria, tableData, onSort, onSearch })
+  return ({ sortCriteria, tableData, onSort, onSearch, onFilter })
 }

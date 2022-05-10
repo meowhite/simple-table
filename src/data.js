@@ -11,7 +11,7 @@ export const data = [
   },
   {
     _id: "5",
-    email: "amineamine1996@gmail.com",
+    email: "ceeee@gmail.com",
     name: "amine amine",
     phone: "+96176466341",
     subject: "12121",
