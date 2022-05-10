@@ -4,7 +4,8 @@ import useTable from './TableController'
 
 export default function Table(props) {
   const { config: { fields, primaryKey, defaultSort }, data } = props;
-  const formatData = dataFieldFormatter(data, fields)
+  const visibleFields = fields?.filter(e => !e.isInvisible)
+  const formatData = dataFieldFormatter(data, visibleFields)
   const { sortCriteria, tableData, onSort, onSearch, onFilter } = useTable({ data: formatData, defaultSort })
 
   const [searchValue, setSearchValue] = useState('')
@@ -27,7 +28,7 @@ export default function Table(props) {
       <table className="fn-table">
         <thead>
           <tr>
-            {fields?.map(field => {
+            {visibleFields?.map(field => {
               return (
                 <th onClick={onHandleSort(field)} key={field.key}>
                   {field.title}
@@ -44,7 +45,7 @@ export default function Table(props) {
           {tableData?.map(row => {
             return (
               <tr key={row[primaryKey]}>
-                {fields?.map((field, index) => {
+                {visibleFields?.map((field, index) => {
                   const key = `${index}-${tableData[field]}`;
                   return field?.formatter
                     ? <td key={key}>{field.formatter(row)}</td>
