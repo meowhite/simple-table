@@ -3,7 +3,7 @@ export const data = [
   {
     _id: "1",
     email: "minagerges123@gmail.com",
-    name: "Mina",
+    name: "mina",
     phone: "+96170345114",
     subject: "test",
     message: "ahlannn",
@@ -48,7 +48,7 @@ export const data = [
   {
     _id: "4",
     email: "dominique.amine@gmail.com",
-    name: "Dominique",
+    name: "dominique",
     phone: "+96181304686",
     subject: "Dev ",
     message: "Ohmaga",
@@ -57,7 +57,7 @@ export const data = [
   {
     _id: "7",
     email: "amineamine19961996@gmail.com",
-    name: "Jean Claude Samaha Bartender",
+    name: "jean Claude Samaha Bartender",
     phone: "+96170492931",
     subject: "cv application",
     message: "hello amine this a test email ",

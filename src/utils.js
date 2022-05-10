@@ -7,3 +7,15 @@ export const getNextSortStatus = (currentStatus = undefined) =>
 
 
 export const getSortIcon = (currentStatus = undefined) => currentStatus === undefined ? '' : (currentStatus ? <ArrowUp /> : <ArrowDown />)
+
+/**
+ * 
+ * @param {*} data : is data array
+ * @param {*} fields : is array header field 
+ * @returns : new data with field has key in header field
+ */
+
+export const dataFormatter = (data, fields) =>
+  data.map((row, i) =>
+    fields.reduce((acc, el) =>
+      ({ ...acc, [el.key]: el?.customSearch?.(row) || row?.[el?.key] || '' }), {}))

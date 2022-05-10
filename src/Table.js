@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import { getNextSortStatus, getSortIcon } from './utils'
+import { getSortIcon, dataFormatter } from './utils'
 import useTable from './TableController'
 
 export default function Table(props) {
   const { config: { fields, primaryKey }, data } = props;
-  const { sortCriteria, tableData, onSort } = useTable({ data })
+  const formatData = dataFormatter(data, fields)
+  const { sortCriteria, tableData, onSort } = useTable({ data: formatData })
 
   const onHandleSort = (currentField) => () => currentField?.isSortable && onSort(currentField)
-
-  console.log('isAsc', sortCriteria.isAsc)
 
   return (
     <div>
@@ -36,7 +35,7 @@ export default function Table(props) {
                 {fields?.map((field, index) => {
                   const key = `${index}-${tableData[field]}`;
                   return field?.formatter
-                    ? <td key={key}>{field.formatter(tableData[field.key])}</td>
+                    ? <td key={key}>{field.formatter(row)}</td>
                     : <td key={key}>{row[field.key]}</td>;
                 })}
               </tr>

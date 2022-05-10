@@ -20,6 +20,14 @@ function App() {
         isTitle: true,
       },
       {
+        title: 'Full Name with ID',
+        key: 'fullNameWithID',
+        isSortable: true,
+        isTitle: true,
+        customSearch: row => `${row.name} id is: ${row._id}`,
+        formatter: row => <div>full name: {row?.name} {row?._id}</div>,
+      },
+      {
         title: 'Email Address',
         key: 'email',
         isSortable: true,
@@ -28,8 +36,8 @@ function App() {
       {
         title: 'Date created',
         key: 'date',
-        formatter: value => (new Date(Number(value))).toDateString(),
-      },
+        formatter: value => (new Date(Number('2021-09-16 22:18:31'))).toDateString(),
+      }
     ],
     defaultSort: {
       field: 'name',
