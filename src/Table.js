@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { getSortIcon, dataFormatter } from './utils'
+import { getSortIcon, dataFieldFormatter } from './utils'
 import useTable from './TableController'
 
 export default function Table(props) {
-  const { config: { fields, primaryKey }, data } = props;
-  const formatData = dataFormatter(data, fields)
-  const { sortCriteria, tableData, onSort } = useTable({ data: formatData })
+  const { config: { fields, primaryKey, defaultSort }, data } = props;
+  const formatData = dataFieldFormatter(data, fields)
+  const { sortCriteria, tableData, onSort } = useTable({ data: formatData, defaultSort })
 
-  const onHandleSort = (currentField) => () => currentField?.isSortable && onSort(currentField)
+  const onHandleSort = (currentField) => () => currentField?.sortable && onSort(currentField)
 
   return (
     <div>
@@ -20,7 +20,7 @@ export default function Table(props) {
                 <th onClick={onHandleSort(field)} key={field.key}>
                   {field.title}
                   <span className='arrow-icon'>
-                    {field?.isSortable && sortCriteria?.field === field.key && getSortIcon(sortCriteria.isAsc)}
+                    {field?.sortable && sortCriteria?.field === field.key && getSortIcon(sortCriteria.isAsc)}
                   </span>
                 </th>
               )

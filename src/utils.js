@@ -15,7 +15,7 @@ export const getSortIcon = (currentStatus = undefined) => currentStatus === unde
  * @returns : new data with field has key in header field
  */
 
-export const dataFormatter = (data, fields) =>
+export const dataFieldFormatter = (data, fields) =>
   data.map((row, i) =>
     fields.reduce((acc, el) =>
-      ({ ...acc, [el.key]: el?.customSearch?.(row) || row?.[el?.key] || '' }), {}))
+      ({ ...acc, [el.key]: el?.sortable?.sortQuery?.(row) || row?.[el?.key] || '' }), {}))

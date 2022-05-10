@@ -11,26 +11,27 @@ function App() {
       {
         title: 'ID',
         key: '_id',
-        isSortable: true,
+        sortable: true
       },
       {
         title: 'Full Name',
         key: 'name',
-        isSortable: true,
         isTitle: true,
+        sortable: true
       },
       {
         title: 'Full Name with ID',
         key: 'fullNameWithID',
-        isSortable: true,
         isTitle: true,
-        customSearch: row => `${row.name} id is: ${row._id}`,
+        sortable: {
+          sortQuery: row => `${row.name} id is: ${row._id}`,
+        },
         formatter: row => <div>full name: {row?.name} {row?._id}</div>,
       },
       {
         title: 'Email Address',
         key: 'email',
-        isSortable: true,
+        sortable: true,
         isTagline: true,
       },
       {
@@ -41,7 +42,7 @@ function App() {
     ],
     defaultSort: {
       field: 'name',
-      type: 'asc',
+      isAsc: true,
     },
     items: data,
     primaryKey: '_id',
