@@ -5,13 +5,22 @@ import useTable from './TableController'
 export default function Table(props) {
   const { config: { fields, primaryKey, defaultSort }, data } = props;
   const formatData = dataFieldFormatter(data, fields)
-  const { sortCriteria, tableData, onSort } = useTable({ data: formatData, defaultSort })
+  const { sortCriteria, tableData, onSort, onSearch } = useTable({ data: formatData, defaultSort })
+
+  const [searchValue, setSearchValue] = useState('')
 
   const onHandleSort = (currentField) => () => currentField?.sortable && onSort(currentField)
+
+  const onChangeSearch = (ev) => setSearchValue(ev.target.value)
+  const onHandleSearch = () => onSearch(searchValue.toString())
 
   return (
     <div>
       <div>Monthly Budget</div>
+      <input value={searchValue} onChange={onChangeSearch} />
+      <button onClick={onHandleSearch}>
+        Search
+      </button>
       <table className="fn-table">
         <thead>
           <tr>

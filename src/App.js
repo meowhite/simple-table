@@ -34,16 +34,16 @@ function App() {
         sortable: true,
         isTagline: true,
       },
-      {
-        title: 'Date created',
-        key: 'date',
-        formatter: value => (new Date(Number('2021-09-16 22:18:31'))).toDateString(),
-      }
+      // {
+      //   title: 'Date created',
+      //   key: 'date',
+      //   formatter: value => (new Date(Number('2021-09-16 22:18:31'))).toDateString(),
+      // }
     ],
-    defaultSort: {
-      field: 'name',
-      isAsc: true,
-    },
+    // defaultSort: {
+    //   field: 'name',
+    //   isAsc: true,
+    // },
     items: data,
     primaryKey: '_id',
     style: {},
