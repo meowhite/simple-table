@@ -34,16 +34,33 @@ export default function TableController(params = {}) {
 
   /**
    * filterCondition:
-   * [{key: 'name', value: 'cee'},{key: 'email', value: 'hello'}, ]
+   * [{key: 'name', value: 'cee'},{key: 'email', value: 'hello'}, ] // search
+   * or
+   * [{ key: 'name', value: 'as' },{ key: '_id', value: ['1', '3'] }]  // multi or single select 
+   * or
+   * [{ key: 'name', value: 'as' },{ key: 'price', value: {from: 3, to: 6} }] // min - max
    */
   // https://replit.com/@hungdev/ReliableEvergreenArraylist#index.js:1:6
   const onFilter = (filterCondition) => {
-    const filterData = data.filter(ele => filterCondition.find(con => ele[con?.key]?.includes(con?.value)))
+    const filterData = data.filter(ele =>
+      filterCondition.find(con => {
+        if (Array.isArray(con?.value)) { // multi or single select 
+          return con?.value?.includes(ele[con?.key]) // is select option, the value in option must be same with value in table data
+        }
+        if (con?.value?.hasOwnProperty('from')) { // min - max
+          return Number(ele[con.key]) >= Number(con.value.from) && Number(ele[con.key]) <= Number(con.value.to)
+        }
+        if (typeof con?.value === 'string') { // search
+          return ele[con?.key]?.includes(con?.value)
+        }
+        return false
+      }))
+
     setTableData(filterData)
   }
 
   /**
-   * Search all field in table
+   * Search whole field in table
    */
   const onSearch = (searchValue) => {
     const searchFields = data?.filter(row => Object.entries(row).some(entry => String(entry[1]).toLowerCase().includes(searchValue)))

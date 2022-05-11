@@ -15,7 +15,15 @@ export default function Table(props) {
   const onChangeSearch = (ev) => setSearchValue(ev.target.value)
   const onHandleSearch = () => onSearch(searchValue.toString())
 
-  const onHandleFilter = () => onFilter([{ key: 'name', value: 'as' }, { key: 'email', value: 'ce' },])
+  // const onHandleFilter = () => onFilter([{ key: 'name', value: 'as' }, { key: 'email', value: 'ce' },])
+  const onHandleFilter = () => onFilter([
+    { key: 'name', value: 'as' },
+    { key: 'price', value: { from: 3, to: 6 } }
+  ])
+  // const onHandleFilter = () => onFilter([
+  //   { key: 'name', value: 'as' },
+  //   { key: '_id', value: ['1', '3'] },
+  // ])
 
   return (
     <div>
@@ -56,6 +64,9 @@ export default function Table(props) {
           })}
         </tbody>
       </table>
+      <div>
+
+      </div>
     </div>
   )
 }

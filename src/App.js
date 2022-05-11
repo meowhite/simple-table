@@ -20,6 +20,12 @@ function App() {
         sortable: true
       },
       {
+        title: 'Price',
+        key: 'price',
+        isTitle: true,
+        sortable: true
+      },
+      {
         title: 'Full Name with ID',
         key: 'fullNameWithID',
         isTitle: true,
