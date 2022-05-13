@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { getSortIcon, dataFieldFormatter } from './utils'
 import useTable from './TableController'
+import Pagination from './Pagination';
 
 export default function Table(props) {
   const { config: { fields, primaryKey, defaultSort }, data } = props;
   const visibleFields = fields?.filter(e => !e.isInvisible)
   const formatData = dataFieldFormatter(data, visibleFields)
-  const { sortCriteria, tableData, onSort, onSearch, onFilter } = useTable({ data: formatData, defaultSort })
+  const { setTableData, sortCriteria, itemsToDisplay, tableData, onSort, onSearch, onFilter, handlePagination } = useTable({ data: formatData, defaultSort })
 
   const [searchValue, setSearchValue] = useState('')
 
@@ -15,23 +16,29 @@ export default function Table(props) {
   const onChangeSearch = (ev) => setSearchValue(ev.target.value)
   const onHandleSearch = () => onSearch(searchValue.toString())
 
-  // const onHandleFilter = () => onFilter([{ key: 'name', value: 'as' }, { key: 'email', value: 'ce' },])
+  // const onHandleFilter = () => onFilter([{ key: 'name', value: 'as' }, { key: 'email', value: 'gmail' },])
   const onHandleFilter = () => onFilter([
     { key: 'name', value: 'as' },
-    { key: 'price', value: { from: 3, to: 6 } }
+    { key: '_id', value: { from: 3, to: 28 } }
   ])
   // const onHandleFilter = () => onFilter([
   //   { key: 'name', value: 'as' },
   //   { key: '_id', value: ['1', '3'] },
   // ])
 
+  const onChangePage = (data) => {
+    handlePagination(data)
+  }
+
+  console.log('itemsToDisplay', itemsToDisplay)
+
   return (
     <div>
       <div>Monthly Budget</div>
-      <div onClick={onHandleFilter}>Filter email: ce and name: as</div>
+      <div onClick={onHandleFilter}>Filter email: get id from 3 to 28</div>
       <input value={searchValue} onChange={onChangeSearch} />
       <button onClick={onHandleSearch}>
-        Search
+        Search with key: cc
       </button>
       <table className="fn-table">
         <thead>
@@ -50,11 +57,11 @@ export default function Table(props) {
         </thead>
 
         <tbody>
-          {tableData?.map(row => {
+          {itemsToDisplay?.map(row => {
             return (
               <tr key={row[primaryKey]}>
                 {visibleFields?.map((field, index) => {
-                  const key = `${index}-${tableData[field]}`;
+                  const key = `${index}-${itemsToDisplay[field]}`;
                   return field?.formatter
                     ? <td key={key}>{field.formatter(row)}</td>
                     : <td key={key}>{row[field.key]}</td>;
@@ -65,7 +72,13 @@ export default function Table(props) {
         </tbody>
       </table>
       <div>
-
+        <Pagination
+          onChange={onChangePage}
+          page={1}
+          pageSize={10}
+          pageSizes={[5, 10, 20, 30, 40, 50]}
+          totalItems={tableData?.length}
+        />
       </div>
     </div>
   )

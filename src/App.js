@@ -1,7 +1,19 @@
 import logo from './logo.svg';
 import './App.scss';
 import { data } from './data'
+import { data2 } from './data2'
 import Table from './Table';
+
+const fakeData = Array(55).fill('').map((e, i) => ({
+  _id: i + 1,
+  email: "minagerges123@gmail.com",
+  name: "mina",
+  price: Math.floor(Math.random() * (55 - 1 + 1) + 1),
+  phone: "+96170345114",
+  subject: "test",
+  message: "ahlannn",
+  date: "2021-09-17 19:10:50",
+}))
 
 
 function App() {
@@ -30,9 +42,9 @@ function App() {
         key: 'fullNameWithID',
         isTitle: true,
         sortable: {
-          sortQuery: row => `${row.name} id is: ${row._id}`,
+          sortQuery: row => `${row.name} id is: ${row.price}`,
         },
-        formatter: row => <div>full name: {row?.name} {row?._id}</div>,
+        formatter: row => <div>full name: {row?.name} {row?.price}</div>,
       },
       {
         title: 'Email Address',
@@ -48,17 +60,17 @@ function App() {
       }
     ],
     // defaultSort: {
-    //   field: 'name',
+    //   field: 'price',
     //   isAsc: true,
     // },
-    items: data,
+    items: data2,
     primaryKey: '_id',
     style: {},
   }
 
   return (
     <div className="App">
-      <Table data={data} config={config} />
+      <Table data={data2} config={config} />
     </div>
   );
 }

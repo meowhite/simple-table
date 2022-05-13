@@ -1,74 +1,70 @@
 import React, { useEffect, useState } from 'react'
-import { getNextSortStatus } from './utils'
+import { getNextSortStatus, handleSort, handleItemsToDisplay, handleFilter, handleSearch } from './utils'
 
 export default function TableController(params = {}) {
-  const { data = [], defaultSort } = params;
+  const { data = [], defaultSort, defaultPagination, defaultFilter } = params;
   const [tableData, setTableData] = useState(data)
-  const [sortCriteria, setSortCriteria] = useState(defaultSort || { field: '', isAsc: undefined })
+  const [itemsToDisplay, setItemsToDisplay] = useState([]);
+  const [pagination, setPagination] = useState(defaultPagination || { pageSize: 10, page: 1 })
+  const [sortCriteria, setSortCriteria] = useState(defaultSort || { field: '', isAsc: undefined, prevData: tableData })
+  const [filterCriteria, setFilterCriteria] = useState(defaultFilter || [])
+  const [searchCriteria, setSearchCriteria] = useState({ value: '', prevData: tableData })
 
-  console.log('tableData', tableData)
-
-  // handle default sort
   useEffect(() => {
-    if (!defaultSort?.field) return;
-    onSort((defaultSort?.field && { key: defaultSort?.field, isAsc: defaultSort?.isAsc }) || { key: '', isAsc: undefined })
-  }, [defaultSort])
+    setItemsToDisplay(() => handleItemsToDisplay(tableData, pagination?.page, pagination?.pageSize))
+  }, [tableData, pagination])
+
+  useEffect(() => {
+    if (!sortCriteria.field) return;
+    setTableData(allItems => handleSort(allItems, sortCriteria))
+  }, [sortCriteria])
+
+  useEffect(() => {
+    if (!filterCriteria?.length) return;
+    setTableData(allItems => handleFilter(allItems, filterCriteria))
+  }, [filterCriteria])
+
+  useEffect(() => {
+    // if (!searchCriteria) return;
+    setTableData(allItems => handleSearch(allItems, searchCriteria.value))
+  }, [searchCriteria])
+
 
   const onSort = (currentField) => {
-    const { field, isAsc } = sortCriteria
     const { key, isSortable } = currentField // key is field id
-    const isSameField = field === key
-
-    let items = structuredClone(data)
-    if (typeof getNextSortStatus(isAsc) === 'boolean' && isSameField) {
-      getNextSortStatus(isAsc)
-        ? items.sort((a, b) => (a[key] > b[key]) ? 1 : -1)
-        : items.sort((a, b) => (a[key] > b[key]) ? -1 : 1)
-    }
-    if (!isSameField) {
-      items.sort((a, b) => (a[key] > b[key]) ? 1 : -1)
-    }
-    setSortCriteria({ field: key, isAsc: isSameField ? getNextSortStatus(isAsc) : true })
-    setTableData(items)
+    setSortCriteria(prev => ({
+      field: key,
+      isAsc: sortCriteria?.field === key ? getNextSortStatus(sortCriteria?.isAsc) : true,
+      prevData: prev?.isAsc === undefined ? tableData : prev.prevData // save default data before itself changed
+    }))
   }
 
   /**
    * filterCondition:
    * [{key: 'name', value: 'cee'},{key: 'email', value: 'hello'}, ] // search
    * or
-   * [{ key: 'name', value: 'as' },{ key: '_id', value: ['1', '3'] }]  // multi or single select 
+   * [{ key: 'name', value: 'as' },{ key: '_id', value: ['1', '3'] }]  // select 
    * or
    * [{ key: 'name', value: 'as' },{ key: 'price', value: {from: 3, to: 6} }] // min - max
    */
   // https://replit.com/@hungdev/ReliableEvergreenArraylist#index.js:1:6
   const onFilter = (filterCondition) => {
-    const filterData = data.filter(ele =>
-      filterCondition.find(con => {
-        if (Array.isArray(con?.value)) { // multi or single select 
-          return con?.value?.includes(ele[con?.key]) // is select option, the value in option must be same with value in table data
-        }
-        if (con?.value?.hasOwnProperty('from')) { // min - max
-          return Number(ele[con.key]) >= Number(con.value.from) && Number(ele[con.key]) <= Number(con.value.to)
-        }
-        if (typeof con?.value === 'string') { // search
-          return ele[con?.key]?.includes(con?.value)
-        }
-        return false
-      }))
-
-    setTableData(filterData)
+    setFilterCriteria(filterCondition)
   }
 
   /**
    * Search whole field in table
    */
   const onSearch = (searchValue) => {
-    const searchFields = data?.filter(row => Object.entries(row).some(entry => String(entry[1]).toLowerCase().includes(searchValue)))
-    setTableData(searchValue ? searchFields : data)
+    // setTableData(searchValue ? handleSearch(tableData, searchValue) : data)
+    setSearchCriteria({ value: searchValue })
+  }
+
+  const handlePagination = (data) => { // { pageSize, page, totalItems }
+    setPagination(data)
   }
 
 
 
-
-  return ({ sortCriteria, tableData, onSort, onSearch, onFilter })
+  return ({ setTableData, sortCriteria, itemsToDisplay, tableData, onSearch, onFilter, onSort, handlePagination })
 }
