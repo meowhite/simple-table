@@ -7,7 +7,17 @@ export default function Table(props) {
   const { config: { fields, primaryKey, defaultSort }, data } = props;
   // const [visibleFields, setVisibleFields] = useState(fields?.filter(e => !e.isInvisible));
   // const formatData = dataFieldFormatter(data, visibleFields);
-  const { visibleFields, setTableData, sortCriteria, itemsToDisplay, tableData, onSort, onSearch, onFilter, handlePagination, onSetVisibleFields } = useTable({ data, fields, defaultSort });
+  const {
+    visibleFields,
+    sortCriteria,
+    itemsToDisplay,
+    tableData,
+    onSort,
+    onSearch,
+    onFilter,
+    handlePagination,
+    onSetVisibleFields
+  } = useTable({ data, fields, defaultSort });
 
   const [searchValue, setSearchValue] = useState('');
 
