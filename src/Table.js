@@ -1,36 +1,36 @@
-import React, { useState } from 'react'
-import { getSortIcon, dataFieldFormatter } from './utils'
-import useTable from './TableController'
+import React, { useState } from 'react';
+import { getSortIcon, dataFieldFormatter } from './utils';
+import useTable from './TableController';
 import Pagination from './Pagination';
 
 export default function Table(props) {
   const { config: { fields, primaryKey, defaultSort }, data } = props;
-  const visibleFields = fields?.filter(e => !e.isInvisible)
-  const formatData = dataFieldFormatter(data, visibleFields)
-  const { setTableData, sortCriteria, itemsToDisplay, tableData, onSort, onSearch, onFilter, handlePagination } = useTable({ data: formatData, defaultSort })
+  const visibleFields = fields?.filter(e => !e.isInvisible);
+  const formatData = dataFieldFormatter(data, visibleFields);
+  const { setTableData, sortCriteria, itemsToDisplay, tableData, onSort, onSearch, onFilter, handlePagination } = useTable({ data: formatData, defaultSort });
 
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState('');
 
-  const onHandleSort = (currentField) => () => currentField?.sortable && onSort(currentField)
+  const onHandleSort = (currentField) => () => currentField?.sortable && onSort(currentField);
 
-  const onChangeSearch = (ev) => setSearchValue(ev.target.value)
-  const onHandleSearch = () => onSearch(searchValue.toString())
+  const onChangeSearch = (ev) => setSearchValue(ev.target.value);
+  const onHandleSearch = () => onSearch(searchValue.toString());
 
   // const onHandleFilter = () => onFilter([{ key: 'name', value: 'as' }, { key: 'email', value: 'gmail' },])
   const onHandleFilter = () => onFilter([
     { key: 'name', value: 'as' },
     { key: '_id', value: { from: 3, to: 28 } }
-  ])
+  ]);
   // const onHandleFilter = () => onFilter([
   //   { key: 'name', value: 'as' },
   //   { key: '_id', value: ['1', '3'] },
   // ])
 
   const onChangePage = (data) => {
-    handlePagination(data)
-  }
+    handlePagination(data);
+  };
 
-  console.log('itemsToDisplay', itemsToDisplay)
+  // console.log('itemsToDisplay', itemsToDisplay)
 
   return (
     <div>
@@ -51,7 +51,7 @@ export default function Table(props) {
                     {field?.sortable && sortCriteria?.field === field.key && getSortIcon(sortCriteria.isAsc)}
                   </span>
                 </th>
-              )
+              );
             })}
           </tr>
         </thead>
@@ -67,7 +67,7 @@ export default function Table(props) {
                     : <td key={key}>{row[field.key]}</td>;
                 })}
               </tr>
-            )
+            );
           })}
         </tbody>
       </table>
@@ -81,5 +81,5 @@ export default function Table(props) {
         />
       </div>
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.scss';
-import { data } from './data'
-import { data2 } from './data2'
+import { data } from './data';
+import { data2 } from './data2';
 import Table from './Table';
 
 const fakeData = Array(55).fill('').map((e, i) => ({
@@ -13,7 +13,7 @@ const fakeData = Array(55).fill('').map((e, i) => ({
   subject: "test",
   message: "ahlannn",
   date: "2021-09-17 19:10:50",
-}))
+}));
 
 
 function App() {
@@ -66,7 +66,7 @@ function App() {
     items: data2,
     primaryKey: '_id',
     style: {},
-  }
+  };
 
   return (
     <div className="App">

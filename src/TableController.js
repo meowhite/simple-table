@@ -1,43 +1,42 @@
-import React, { useEffect, useState } from 'react'
-import { getNextSortStatus, handleSort, handleItemsToDisplay, handleFilter, handleSearch } from './utils'
+import React, { useEffect, useState } from 'react';
+import { dataChaining, getNextSortStatus, handleSort, handleItemsToDisplay, handleFilter, handleSearch } from './utils';
 
 export default function TableController(params = {}) {
   const { data = [], defaultSort, defaultPagination, defaultFilter } = params;
-  const [tableData, setTableData] = useState(data)
+  const [tableData, setTableData] = useState(data);
   const [itemsToDisplay, setItemsToDisplay] = useState([]);
-  const [pagination, setPagination] = useState(defaultPagination || { pageSize: 10, page: 1 })
-  const [sortCriteria, setSortCriteria] = useState(defaultSort || { field: '', isAsc: undefined, prevData: tableData })
-  const [filterCriteria, setFilterCriteria] = useState(defaultFilter || [])
-  const [searchCriteria, setSearchCriteria] = useState({ value: '', prevData: tableData })
+  const [pagination, setPagination] = useState(defaultPagination || { pageSize: 10, page: 1 });
+  const [sortCriteria, setSortCriteria] = useState(defaultSort || { field: '', isAsc: undefined, });
+  const [filterCriteria, setFilterCriteria] = useState(defaultFilter || []);
+  const [searchCriteria, setSearchCriteria] = useState('');
 
   useEffect(() => {
-    setItemsToDisplay(() => handleItemsToDisplay(tableData, pagination?.page, pagination?.pageSize))
-  }, [tableData, pagination])
+    setItemsToDisplay(() => handleItemsToDisplay(tableData, pagination?.page, pagination?.pageSize));
+  }, [tableData, pagination]);
 
   useEffect(() => {
-    if (!sortCriteria.field) return;
-    setTableData(allItems => handleSort(allItems, sortCriteria))
-  }, [sortCriteria])
+    const baseData = dataChaining(data).onFilter(filterCriteria).onSearch(searchCriteria).valueOf();
+    setTableData(handleSort(baseData, sortCriteria));
+  }, [sortCriteria]);
 
   useEffect(() => {
-    if (!filterCriteria?.length) return;
-    setTableData(allItems => handleFilter(allItems, filterCriteria))
-  }, [filterCriteria])
+    const baseData = dataChaining(data).onSort(sortCriteria).onSearch(searchCriteria).valueOf();
+    setTableData(handleFilter(baseData, filterCriteria));
+  }, [filterCriteria]);
 
   useEffect(() => {
-    // if (!searchCriteria) return;
-    setTableData(allItems => handleSearch(allItems, searchCriteria.value))
-  }, [searchCriteria])
+    const baseData = dataChaining(data).onFilter(filterCriteria).onSort(sortCriteria).valueOf();
+    setTableData(handleSearch(baseData, searchCriteria));
+  }, [searchCriteria]);
 
 
   const onSort = (currentField) => {
-    const { key, isSortable } = currentField // key is field id
-    setSortCriteria(prev => ({
+    const { key, isSortable } = currentField; // key is field id
+    setSortCriteria({
       field: key,
       isAsc: sortCriteria?.field === key ? getNextSortStatus(sortCriteria?.isAsc) : true,
-      prevData: prev?.isAsc === undefined ? tableData : prev.prevData // save default data before itself changed
-    }))
-  }
+    });
+  };
 
   /**
    * filterCondition:
@@ -49,22 +48,20 @@ export default function TableController(params = {}) {
    */
   // https://replit.com/@hungdev/ReliableEvergreenArraylist#index.js:1:6
   const onFilter = (filterCondition) => {
-    setFilterCriteria(filterCondition)
-  }
+    setFilterCriteria(filterCondition);
+  };
 
   /**
    * Search whole field in table
    */
   const onSearch = (searchValue) => {
-    // setTableData(searchValue ? handleSearch(tableData, searchValue) : data)
-    setSearchCriteria({ value: searchValue })
-  }
+    setSearchCriteria(searchValue);
+  };
 
   const handlePagination = (data) => { // { pageSize, page, totalItems }
-    setPagination(data)
-  }
+    setPagination(data);
+  };
 
 
-
-  return ({ setTableData, sortCriteria, itemsToDisplay, tableData, onSearch, onFilter, onSort, handlePagination })
+  return ({ setTableData, sortCriteria, itemsToDisplay, tableData, onSearch, onFilter, onSort, handlePagination });
 }
