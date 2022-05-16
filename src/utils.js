@@ -18,7 +18,7 @@ export const getSortIcon = (currentStatus = undefined) => currentStatus === unde
 export const dataFieldFormatter = (data, fields) =>
   data.map((row, i) =>
     fields.reduce((acc, el) =>
-      ({ ...acc, [el.key]: el?.sortable?.sortQuery?.(row) || row?.[el?.key] || '' }), {}));
+      ({ ...acc, [el.key]: el?.queryBy?.(row) || row?.[el?.key] || '' }), {}));
 
 
 /**

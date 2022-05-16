@@ -41,8 +41,9 @@ function App() {
         title: 'Full Name with ID',
         key: 'fullNameWithID',
         isTitle: true,
+        queryBy: row => `${row.name} id is: ${row.price}`,
         sortable: {
-          sortQuery: row => `${row.name} id is: ${row.price}`,
+          // sortQuery: row => `${row.name} id is: ${row.price}`,
         },
         formatter: row => <div>full name: {row?.name} {row?.price}</div>,
       },
