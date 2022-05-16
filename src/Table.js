@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getSortIcon, dataFieldFormatter } from './utils';
 import useTable from './TableController';
 import Pagination from './Pagination';
+import { callApiFn } from './services/axiosConfig';
 
 export default function Table(props) {
-  const { config: { fields, primaryKey, defaultSort }, data } = props;
+  const { config: { fields, primaryKey, defaultSort, dataSource }, data } = props;
   // const [visibleFields, setVisibleFields] = useState(fields?.filter(e => !e.isInvisible));
   // const formatData = dataFieldFormatter(data, visibleFields);
+  // const [data, setData] = useState([]);
   const {
     visibleFields,
     sortCriteria,
@@ -16,10 +18,32 @@ export default function Table(props) {
     onSearch,
     onFilter,
     handlePagination,
-    onSetVisibleFields
+    onSetVisibleFields,
+    onSetTableData
   } = useTable({ data, fields, defaultSort });
 
   const [searchValue, setSearchValue] = useState('');
+
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const { method, api } = dataSource;
+  //     try {
+  //       const result = await callApiFn({ method, api });
+  //       console.log('result', result.data);
+  //       // setData(result?.data);
+  //       onSetTableData(result?.data);
+
+  //     } catch (error) { }
+  //   };
+  //   getData();
+  // }, []);
+
+
+
+
+
+
 
   const onHandleSort = (currentField) => () => currentField?.sortable && onSort(currentField);
 

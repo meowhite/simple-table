@@ -1,8 +1,10 @@
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.scss';
 import { data } from './data';
 import { data2 } from './data2';
-import Table from './Table';
+import Home from './Home';
+import { callApiFn } from './services/axiosConfig';
 
 const fakeData = Array(55).fill('').map((e, i) => ({
   _id: i + 1,
@@ -17,39 +19,50 @@ const fakeData = Array(55).fill('').map((e, i) => ({
 
 
 function App() {
+  const [data, setData] = useState([]);
+
 
   const config = {
+    dataSource: {
+      api: '/store',
+      method: 'get'
+    },
     fields: [
       {
         title: 'ID',
-        key: '_id',
+        key: 'id',
         sortable: true
       },
       {
-        title: 'Full Name',
-        key: 'name',
+        title: 'Title',
+        key: 'title',
+        sortable: true
+      },
+      {
+        title: 'Category',
+        key: 'category',
         isTitle: true,
         sortable: true
       },
+      {
+        title: 'Description',
+        key: 'description',
+        isTitle: true,
+        sortable: true
+      },
+      // {
+      //   title: 'Full Name with ID',
+      //   key: 'fullNameWithID',
+      //   isTitle: true,
+      //   queryBy: row => `${row.name} id is: ${row.price}`,
+      //   sortable: {
+      //     // sortQuery: row => `${row.name} id is: ${row.price}`,
+      //   },
+      //   formatter: row => <div>full name: {row?.name} {row?.price}</div>,
+      // },
       {
         title: 'Price',
         key: 'price',
-        isTitle: true,
-        sortable: true
-      },
-      {
-        title: 'Full Name with ID',
-        key: 'fullNameWithID',
-        isTitle: true,
-        queryBy: row => `${row.name} id is: ${row.price}`,
-        sortable: {
-          // sortQuery: row => `${row.name} id is: ${row.price}`,
-        },
-        formatter: row => <div>full name: {row?.name} {row?.price}</div>,
-      },
-      {
-        title: 'Email Address',
-        key: 'email',
         sortable: true,
         isTagline: true,
       },
@@ -65,13 +78,14 @@ function App() {
     //   isAsc: true,
     // },
     items: data2,
-    primaryKey: '_id',
+    primaryKey: 'id',
     style: {},
   };
 
+
   return (
     <div className="App">
-      <Table data={data2} config={config} />
+      <Home config={config} />
     </div>
   );
 }

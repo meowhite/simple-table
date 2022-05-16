@@ -20,6 +20,11 @@ export default function TableController(params = {}) {
   const [filterCriteria, setFilterCriteria] = useState(defaultFilter || []);
   const [searchCriteria, setSearchCriteria] = useState('');
 
+
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
+
   useEffect(() => {
     setItemsToDisplay(() => handleItemsToDisplay(tableData, pagination?.page, pagination?.pageSize));
   }, [tableData, pagination]);
@@ -76,9 +81,12 @@ export default function TableController(params = {}) {
     setVisibleFields(getVisibleFields(fields, fieldKeys));
   };
 
+  const onSetTableData = (data) => {
+    setTableData(dataFieldFormatter(data, visibleFields));
+  };
+
 
   return ({
-    setTableData,
     sortCriteria,
     itemsToDisplay,
     tableData,
@@ -88,5 +96,6 @@ export default function TableController(params = {}) {
     onSort,
     handlePagination,
     onSetVisibleFields,
+    onSetTableData
   });
 }

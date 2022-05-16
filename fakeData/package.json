@@ -1,0 +1,11 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Cee",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "json-server": "^0.12.2"
+  }
+}
