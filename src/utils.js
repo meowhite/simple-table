@@ -9,7 +9,7 @@ export const getNextSortStatus = (currentStatus = undefined) =>
 export const getSortIcon = (currentStatus = undefined) => currentStatus === undefined ? '' : (currentStatus ? <ArrowUp /> : <ArrowDown />);
 
 /**
- * 
+ * this func serve for custom field that doesn't have in original data, it will generate data follow custom field
  * @param {*} data : is data array
  * @param {*} fields : is array header field 
  * @returns : new data with field has key in header field
@@ -19,6 +19,15 @@ export const dataFieldFormatter = (data, fields) =>
   data.map((row, i) =>
     fields.reduce((acc, el) =>
       ({ ...acc, [el.key]: el?.sortable?.sortQuery?.(row) || row?.[el?.key] || '' }), {}));
+
+
+/**
+ * filter visible field from array field keys
+ * @param {*} listFields 
+ * @param {*} fieldKeys like: ['id', 'name']
+ * @returns 
+ */
+export const getVisibleFields = (listFields, fieldKeys) => listFields.filter(fieldObj => fieldKeys.includes(fieldObj.key));
 
 
 export const handleSort = (allItems, sortCriteria) => {
@@ -58,9 +67,24 @@ export const handleFilter = (allItems, filterCondition) => {
   return filterData;
 };
 
+/**
+ * 
+ * @param {*} allItems 
+ * @param {*} searchValue 
+ * @returns Search whole field in allItems
+ */
 export const handleSearch = (allItems, searchValue) => {
   return allItems?.filter(row => Object.entries(row).some(entry => String(entry[1]).toLowerCase().includes(searchValue)));
 };
+
+
+
+/**
+ * 
+ * @param {*} data is origin data
+ * @returns new data executed functions through chaining func
+ * for example: dataChaining(data).onFilter(filterCriteria).onSearch(searchCriteria).valueOf();
+ */
 
 export const dataChaining = (data) => ({
   result: data,

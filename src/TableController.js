@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { dataChaining, getNextSortStatus, handleSort, handleItemsToDisplay, handleFilter, handleSearch } from './utils';
+import {
+  dataChaining,
+  getNextSortStatus,
+  handleSort,
+  handleItemsToDisplay,
+  handleFilter,
+  handleSearch,
+  dataFieldFormatter,
+  getVisibleFields
+} from './utils';
 
 export default function TableController(params = {}) {
-  const { data = [], defaultSort, defaultPagination, defaultFilter } = params;
-  const [tableData, setTableData] = useState(data);
+  const { data = [], fields, defaultSort, defaultPagination, defaultFilter } = params;
+  const [visibleFields, setVisibleFields] = useState(fields?.filter(e => !e.isInvisible));
+  const [tableData, setTableData] = useState(dataFieldFormatter(data, visibleFields));
   const [itemsToDisplay, setItemsToDisplay] = useState([]);
   const [pagination, setPagination] = useState(defaultPagination || { pageSize: 10, page: 1 });
   const [sortCriteria, setSortCriteria] = useState(defaultSort || { field: '', isAsc: undefined, });
@@ -62,6 +72,21 @@ export default function TableController(params = {}) {
     setPagination(data);
   };
 
+  const onSetVisibleFields = (fieldKeys) => {
+    setVisibleFields(getVisibleFields(fields, fieldKeys));
+  };
 
-  return ({ setTableData, sortCriteria, itemsToDisplay, tableData, onSearch, onFilter, onSort, handlePagination });
+
+  return ({
+    setTableData,
+    sortCriteria,
+    itemsToDisplay,
+    tableData,
+    visibleFields,
+    onSearch,
+    onFilter,
+    onSort,
+    handlePagination,
+    onSetVisibleFields,
+  });
 }

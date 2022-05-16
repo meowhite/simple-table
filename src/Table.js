@@ -5,9 +5,9 @@ import Pagination from './Pagination';
 
 export default function Table(props) {
   const { config: { fields, primaryKey, defaultSort }, data } = props;
-  const visibleFields = fields?.filter(e => !e.isInvisible);
-  const formatData = dataFieldFormatter(data, visibleFields);
-  const { setTableData, sortCriteria, itemsToDisplay, tableData, onSort, onSearch, onFilter, handlePagination } = useTable({ data: formatData, defaultSort });
+  // const [visibleFields, setVisibleFields] = useState(fields?.filter(e => !e.isInvisible));
+  // const formatData = dataFieldFormatter(data, visibleFields);
+  const { visibleFields, setTableData, sortCriteria, itemsToDisplay, tableData, onSort, onSearch, onFilter, handlePagination, onSetVisibleFields } = useTable({ data, fields, defaultSort });
 
   const [searchValue, setSearchValue] = useState('');
 
@@ -30,11 +30,19 @@ export default function Table(props) {
     handlePagination(data);
   };
 
+
+  const onHideField = () => {
+    // const fields
+    // setVisibleFields();
+    onSetVisibleFields(['_id', 'name']);
+  };
+
   // console.log('itemsToDisplay', itemsToDisplay)
 
   return (
     <div>
       <div>Monthly Budget</div>
+      <div onClick={onHideField}>set show only 2 fields: ['_id', 'name']</div>
       <div onClick={onHandleFilter}>Filter email: get id from 3 to 28</div>
       <input value={searchValue} onChange={onChangeSearch} />
       <button onClick={onHandleSearch}>
