@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Cee",
   "license": "MIT",
+  "scripts": {
+    "start": "json-server --watch db.json --port 3004"
+  },
   "dependencies": {},
   "devDependencies": {
     "json-server": "^0.12.2"

@@ -1,7 +1,8 @@
 import { create } from 'axios';
+import { string2Base64 } from '../utils';
 
 const instance = create({
-  baseURL: `http://localhost:3004`,
+  baseURL: `http://192.168.56.101:8080`,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -29,6 +30,19 @@ instance.interceptors.response.use((response) => response, (error) => {
   return Promise.reject(error.response);
 });
 
-export const callApiFn = ({ method = 'get', api, params }) => instance[method](api, params);
+const paramsMethod = (params) => ({
+  get: { params },
+  post: params,
+  put: params,
+  delete: { data: params }
+});
+export const callApiFn = ({ method = 'get', api, params }) => {
+  const query = paramsMethod(params)[method];
+  return instance[method](api, query);
+};
+
+export const queryTableData = ({ api = '/api/report', params }) => {
+  return instance.get(api, { params: { q: string2Base64(params) } });
+};
 
 export default instance;

@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { getSortIcon, dataFieldFormatter } from './utils';
+import { getSortIcon, getNextSortStatus } from './utils';
 import useTable from './TableController';
 import Pagination from './Pagination';
 import { callApiFn } from './services/axiosConfig';
 
 export default function Table(props) {
-  const { config: { fields, primaryKey, defaultSort, dataSource }, data } = props;
+  // config props
+  const { config: { fields, primaryKey, defaultSort, dataSource, dataSource: { isManual } }, data,
+    // standard screen props
+    paginationOptions, onSortClick, onFilterClick
+  } = props;
   // const [visibleFields, setVisibleFields] = useState(fields?.filter(e => !e.isInvisible));
   // const formatData = dataFieldFormatter(data, visibleFields);
   // const [data, setData] = useState([]);
@@ -20,48 +24,41 @@ export default function Table(props) {
     handlePagination,
     onSetVisibleFields,
     onSetTableData
-  } = useTable({ data, fields, defaultSort });
+  } = useTable({ data, fields, defaultSort, isManual });
 
   const [searchValue, setSearchValue] = useState('');
 
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const { method, api } = dataSource;
-  //     try {
-  //       const result = await callApiFn({ method, api });
-  //       console.log('result', result.data);
-  //       // setData(result?.data);
-  //       onSetTableData(result?.data);
-
-  //     } catch (error) { }
-  //   };
-  //   getData();
-  // }, []);
-
-
-
-
-
-
-
-  const onHandleSort = (currentField) => () => currentField?.sortable && onSort(currentField);
+  const onHandleSort = (currentField) => () => {
+    onSortClick?.({ field: currentField.key, isAsc: getNextSortStatus(sortCriteria?.isAsc) });
+    currentField?.sortable && onSort(currentField);
+  };
 
   const onChangeSearch = (ev) => setSearchValue(ev.target.value);
   const onHandleSearch = () => onSearch(searchValue.toString());
 
   // const onHandleFilter = () => onFilter([{ key: 'name', value: 'as' }, { key: 'email', value: 'gmail' },])
-  const onHandleFilter = () => onFilter([
-    { key: 'name', value: 'as' },
-    { key: '_id', value: { from: 3, to: 28 } }
-  ]);
+  const onHandleFilter = () => {
+    console.log('ff clcic');
+    onFilterClick?.([
+      { key: 'host_order_state', value: 'AC' }, { key: 'host_order_priority', value: '0' }
+    ]);
+
+    onFilter([
+      // { key: 'name', value: 'as' },
+      // { key: '_id', value: { from: 3, to: 28 } }
+      { key: 'host_order_state', value: 'AC' }, { key: 'host_order_priority', value: '0' }
+    ]);
+
+  };
   // const onHandleFilter = () => onFilter([
   //   { key: 'name', value: 'as' },
   //   { key: '_id', value: ['1', '3'] },
   // ])
 
   const onChangePage = (data) => {
-    handlePagination(data);
+    paginationOptions?.onChange?.(data);
+    handlePagination?.(data);
   };
 
 
@@ -76,7 +73,7 @@ export default function Table(props) {
   return (
     <div>
       <div>Monthly Budget</div>
-      <div onClick={onHideField}>set show only 2 fields: ['_id', 'name']</div>
+      {/* <div onClick={onHideField}>set show only 2 fields: ['host_order_state', 'host_order_priority']</div> */}
       <div onClick={onHandleFilter}>Filter email: get id from 3 to 28</div>
       <input value={searchValue} onChange={onChangeSearch} />
       <button onClick={onHandleSearch}>
@@ -116,10 +113,10 @@ export default function Table(props) {
       <div>
         <Pagination
           onChange={onChangePage}
-          page={1}
-          pageSize={10}
+          page={paginationOptions.page}
+          pageSize={paginationOptions.pageSize}
           pageSizes={[5, 10, 20, 30, 40, 50]}
-          totalItems={tableData?.length}
+          totalItems={paginationOptions.totalItems || tableData?.length}
         />
       </div>
     </div>

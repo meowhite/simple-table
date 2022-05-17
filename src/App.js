@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.scss';
 import { data } from './data';
 import { data2 } from './data2';
-import Home from './Home';
+import Home from './Standard';
 import { callApiFn } from './services/axiosConfig';
 
 const fakeData = Array(55).fill('').map((e, i) => ({
@@ -19,13 +19,12 @@ const fakeData = Array(55).fill('').map((e, i) => ({
 
 
 function App() {
-  const [data, setData] = useState([]);
-
 
   const config = {
     dataSource: {
-      api: '/store',
-      method: 'get'
+      api: '/api/report',
+      method: 'get',
+      isManual: true
     },
     fields: [
       {
@@ -33,20 +32,20 @@ function App() {
         key: 'id',
         sortable: true
       },
+      // {
+      //   title: 'oracle_rn',
+      //   key: 'oracle_rn',
+      //   sortable: true
+      // },
       {
-        title: 'Title',
-        key: 'title',
-        sortable: true
-      },
-      {
-        title: 'Category',
-        key: 'category',
+        title: 'host_order_type',
+        key: 'host_order_type',
         isTitle: true,
         sortable: true
       },
       {
-        title: 'Description',
-        key: 'description',
+        title: 'host_order_state',
+        key: 'host_order_state',
         isTitle: true,
         sortable: true
       },
@@ -61,15 +60,15 @@ function App() {
       //   formatter: row => <div>full name: {row?.name} {row?.price}</div>,
       // },
       {
-        title: 'Price',
-        key: 'price',
+        title: 'host_order_priority',
+        key: 'host_order_priority',
         sortable: true,
         isTagline: true,
       },
       {
-        title: 'Date created',
-        key: 'date',
-        formatter: value => (new Date(Number('2021-09-16 22:18:31'))).toDateString(),
+        title: 'host_order_number',
+        key: 'host_order_number',
+        // formatter: value => (new Date(Number('2021-09-16 22:18:31'))).toDateString(),
         isInvisible: true
       }
     ],

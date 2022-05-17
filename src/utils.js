@@ -16,7 +16,7 @@ export const getSortIcon = (currentStatus = undefined) => currentStatus === unde
  */
 
 export const dataFieldFormatter = (data, fields) =>
-  data.map((row, i) =>
+  data?.map((row, i) =>
     fields.reduce((acc, el) =>
       ({ ...acc, [el.key]: el?.queryBy?.(row) || row?.[el?.key] || '' }), {}));
 
@@ -104,3 +104,7 @@ export const dataChaining = (data) => ({
     return this.result;
   }
 });
+
+export const string2Base64 = (obj) => {
+  return btoa(JSON.stringify(obj));
+};
