@@ -37,7 +37,7 @@ export default function Home(props) {
         setData(result?.data?.data?.items || []);
         setPagination(prev => ({
           ...prev,
-          totalItems: result?.data?.data?.totel_item
+          totalItems: result?.data?.data?.total_item
         }));
 
       } catch (error) { }
