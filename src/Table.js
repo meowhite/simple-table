@@ -65,7 +65,7 @@ export default function Table(props) {
   const onHideField = () => {
     // const fields
     // setVisibleFields();
-    onSetVisibleFields(['_id', 'name']);
+    onSetVisibleFields(['host_order_state', 'host_order_priority']);
   };
 
   // console.log('itemsToDisplay', itemsToDisplay)
@@ -73,7 +73,7 @@ export default function Table(props) {
   return (
     <div>
       <div>Monthly Budget</div>
-      {/* <div onClick={onHideField}>set show only 2 fields: ['host_order_state', 'host_order_priority']</div> */}
+      <div onClick={onHideField}>set show only 2 fields: ['host_order_state', 'host_order_priority']</div>
       <div onClick={onHandleFilter}>Filter email: get id from 3 to 28</div>
       <input value={searchValue} onChange={onChangeSearch} />
       <button onClick={onHandleSearch}>
