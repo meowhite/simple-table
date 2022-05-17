@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import ArrowLeft from './icons/ArrowLeft';
 import ArrowRight from './icons/ArrowRight';
 
 
 export default function Pagination(props) {
   const { page, pageSize, pageSizes, totalItems, onChange } = props;
-  const [curPageSize, setCurPageSize] = useState(pageSize)
-  const [curPage, setCurPage] = useState(page)
-  const totalPageNumber = Math.ceil(totalItems / curPageSize)
-  const pageListArray = Array(totalPageNumber).fill('').map((e, i) => i + 1)
+  const [curPageSize, setCurPageSize] = useState(pageSize);
+  const [curPage, setCurPage] = useState(page);
+  const totalPageNumber = Math.ceil(totalItems / curPageSize);
+  const pageListArray = Array(totalPageNumber).fill('').map((e, i) => i + 1);
 
   useEffect(() => {
-    onChange?.({ page: curPage, pageSize: curPageSize, totalItems })
-  }, [curPageSize, curPage])
+    onChange?.({ page: curPage, pageSize: curPageSize, totalItems });
+  }, [curPageSize, curPage]);
 
   const onChangePage = (type) => () => {
     if (type === 'prev') {
-      curPage >= 2 && setCurPage(pageNumber => pageNumber - 1)
+      curPage >= 2 && setCurPage(pageNumber => pageNumber - 1);
     }
     if (type === 'next') {
-      curPage < totalPageNumber && setCurPage(pageNumber => pageNumber + 1)
+      curPage < totalPageNumber && setCurPage(pageNumber => pageNumber + 1);
     }
-  }
+  };
 
   const onChangePageSize = (ev) => {
-    setCurPageSize(Number(ev.target.value))
-  }
+    setCurPageSize(Number(ev.target.value));
+  };
 
   const onChangePageNumber = (ev) => {
-    setCurPage(ev.target.value)
-  }
+    setCurPage(Number(ev.target.value));
+  };
 
   return (
     <div className='pagination'>
@@ -52,5 +52,5 @@ export default function Pagination(props) {
         <div className='pag-arrow-right' onClick={onChangePage('next')}><ArrowRight /></div>
       </div>
     </div >
-  )
+  );
 }
