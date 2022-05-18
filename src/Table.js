@@ -30,7 +30,11 @@ export default function Table(props) {
 
 
   const onHandleSort = (currentField) => () => {
-    onSortClick?.({ field: currentField.key, isAsc: getNextSortStatus(sortCriteria?.isAsc) });
+    // onSortClick?.({ field: currentField.key, isAsc: getNextSortStatus(sortCriteria?.isAsc) });
+    onSortClick?.({
+      field: currentField.key,
+      isAsc: currentField.key === sortCriteria.field ? getNextSortStatus(sortCriteria?.isAsc) : true,
+    });
     currentField?.sortable && onSort(currentField);
   };
 
@@ -41,7 +45,7 @@ export default function Table(props) {
   const onHandleFilter = () => {
     console.log('ff clcic');
     onFilterClick?.([
-      { key: 'host_order_state', value: 'AC' }, { key: 'host_order_priority', value: '0' }
+      { key: 'host_order_state', value: '%ACT%', opt: 'like' }
     ]);
 
     onFilter([
