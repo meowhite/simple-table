@@ -1,19 +1,38 @@
+.App {
+  background: #FAFAFA;
+
+}
+
+
+// table
 .fn-table {
   border: none;
   border-collapse: collapse;
   width: 100%;
+  border: 1px solid #F0F0F0;
+  background: #ffffff;
+
+  .minimum-width {
+    width: 1%;
+    white-space: nowrap;
+    padding: 0 30px;
+  }
+
+  thead {
+    height: 50px;
+    border-bottom: 2px solid #0C2D4D;
+  }
+
+  th,
+  td {
+    border: 1px dashed #D8DFE6;
+    text-align: left;
+    padding: 0 30px;
+    height: 50px;
+  }
 
   td {
-    border: none;
-    padding: 5px 7.5px;
-  }
-
-  tbody>tr {
-    background-color: #e6e6e6;
-  }
-
-  tbody>tr:nth-child(odd) {
-    background-color: #ffffff;
+    border-bottom: 2px solid #DEDEDE;
   }
 
   .arrow-icon {

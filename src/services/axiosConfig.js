@@ -41,8 +41,8 @@ export const callApiFn = ({ method = 'get', api, params }) => {
   return instance[method](api, query);
 };
 
-export const queryTableData = ({ api = '/api/report', params }) => {
-  return instance.get(api, { params: { q: string2Base64(params) } });
+export const queryTableData = ({ method = 'get', api = '/api/report', params }) => {
+  return instance?.[method]?.(api, { params: { q: string2Base64(params) } });
 };
 
 export default instance;

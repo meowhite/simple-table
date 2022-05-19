@@ -1,22 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.scss';
-import { data } from './data';
-import { data2 } from './data2';
 import Home from './Standard';
-import { callApiFn } from './services/axiosConfig';
-
-const fakeData = Array(55).fill('').map((e, i) => ({
-  _id: i + 1,
-  email: "minagerges123@gmail.com",
-  name: "mina",
-  price: Math.floor(Math.random() * (55 - 1 + 1) + 1),
-  phone: "+96170345114",
-  subject: "test",
-  message: "ahlannn",
-  date: "2021-09-17 19:10:50",
-}));
-
 
 function App() {
 
@@ -24,7 +8,15 @@ function App() {
     dataSource: {
       api: '/api/report',
       method: 'get',
-      isManual: true
+      isManual: true,
+      tableAdditionInfo: {
+        "tbl": "host_order",
+        "meta": {
+          "tbl": "host_order_av",
+          "src_col": "id",
+          "dst_col": "id"
+        },
+      }
     },
     fields: [
       {
@@ -32,11 +24,17 @@ function App() {
         key: 'id',
         sortable: true
       },
-      // {
-      //   title: 'oracle_rn',
-      //   key: 'oracle_rn',
-      //   sortable: true
-      // },
+      {
+        title: 'oracle_rn',
+        key: 'oracle_rn',
+        isTitle: true,
+        isMinimumWidth: true, // minimum width
+        sortable: true,
+        filterable: {
+          // opt: 'like'  // 'operation' 'like', 'range'
+          opt: 'range'  // 'operation' 'like', 'range'
+        }
+      },
       {
         title: 'host_order_type',
         key: 'host_order_type',
@@ -47,7 +45,11 @@ function App() {
         title: 'host_order_state',
         key: 'host_order_state',
         isTitle: true,
-        sortable: true
+        sortable: true,
+        filterable: {
+          // opt: 'like'  // 'operation' 'like', 'range'
+          opt: 'operation'  // 'operation' 'like', 'range'
+        }
       },
       // {
       //   title: 'Full Name with ID',
@@ -62,6 +64,7 @@ function App() {
       {
         title: 'host_order_priority',
         key: 'host_order_priority',
+        isMinimumWidth: true, // minimum width
         sortable: true,
         isTagline: true,
       },
@@ -76,7 +79,6 @@ function App() {
     //   field: 'price',
     //   isAsc: true,
     // },
-    items: data2,
     primaryKey: 'id',
     style: {},
   };

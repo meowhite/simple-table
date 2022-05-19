@@ -13,31 +13,26 @@ export default function Home(props) {
 
   useEffect(() => {
     const getData = async () => {
-      const { method, api } = config.dataSource;
+      const { method, api, tableAdditionInfo = {} } = config?.dataSource;
       const filterFormat = filterCriteria?.map(e => ({ ...e, field: e.key, val: e.value }));
       const params = {
-        "tbl": "host_order",
-        "meta": {
-          "tbl": "host_order_av",
-          "src_col": "id",
-          "dst_col": "id"
-        },
-        "default_sorts": [{
-          "field": config?.defaultSort?.field || fields?.[0]?.key,
-          "asc": Boolean(config?.defaultSort?.isAsc)
+        ...tableAdditionInfo,
+        default_sorts: [{
+          field: config?.defaultSort?.field || fields?.[0]?.key,
+          asc: Boolean(config?.defaultSort?.isAsc)
         }],
-        "page": pagination.page,
-        "page_size": pagination.pageSize,
+        page: pagination.page,
+        page_size: pagination.pageSize,
         filters: filterFormat,
         ...sortCriteria?.field && { sorts: [{ field: sortCriteria?.field, asc: sortCriteria?.isAsc }] }
       };
-      console.log('params', params);
+      console.log('Data before sending request:', params);
       try {
-        const result = await queryTableData({ api, params });
+        const result = await queryTableData({ method, api, params });
         setData(result?.data?.data?.items || []);
         setPagination(prev => ({
           ...prev,
-          totalItems: result?.data?.data?.total_item
+          totalItems: result?.data?.data?.total_item || 0
         }));
 
       } catch (error) { }

@@ -108,3 +108,69 @@ export const dataChaining = (data) => ({
 export const string2Base64 = (obj) => {
   return btoa(JSON.stringify(obj));
 };
+
+const filterCases = (type, ele) => {
+  switch (type) {
+    case 'like':
+      return ([{
+        ...ele,
+        value: `%${ele.value}%`,
+        opt: 'like'
+      }]);
+    case 'range':
+      return ([
+        {
+          ...ele,
+          value: ele.value?.from,
+          opt: '\u003E'
+        },
+        {
+          ...ele,
+          value: ele.value?.to,
+          opt: '\u003C'
+        }
+      ]);
+
+    default:
+      return ([{
+        ...ele,
+        value: ele.value,
+      }]);
+  }
+};
+export const filterOperation = (fields, filterCondition) => {
+  //fields [
+  //   {
+  //     title: 'host_order_type',
+  //     key: 'host_order_type',
+  //     isTitle: true,
+  //     sortable: true,
+  //     filterable: {
+  //       opt: 'operation' // 'like', 'range'
+  //     }
+  //   },
+  //   {
+  //     title: 'host_order_state',
+  //     key: 'host_order_state',
+  //     isTitle: true,
+  //     sortable: true,
+  //     filterable: {
+  //       opt: 'operation'  // 'like', 'range'
+  //     }
+  //   }
+  // ]
+
+  //filterCondition [
+  //   { key: 'host_order_type', value: 'AC' },
+  //   { key: 'host_order_state', value: { from: 3, to: 28 } }
+  // ]
+
+  // return
+  // [{ key: 'host_order_state', value: '%ACT%', opt: 'like' }]
+
+  return filterCondition.reduce((acc, ele) => {
+    const curField = fields.find(field => field.key === ele.key);
+    return [...acc, ...filterCases(curField?.filterable?.opt, ele)];
+  }, []);
+
+};

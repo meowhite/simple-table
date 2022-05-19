@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getSortIcon, getNextSortStatus } from './utils';
+import { getSortIcon, getNextSortStatus, filterOperation } from './utils';
 import useTable from './TableController';
 import Pagination from './Pagination';
 import { callApiFn } from './services/axiosConfig';
@@ -44,9 +44,13 @@ export default function Table(props) {
   // const onHandleFilter = () => onFilter([{ key: 'name', value: 'as' }, { key: 'email', value: 'gmail' },])
   const onHandleFilter = () => {
     console.log('ff clcic');
-    onFilterClick?.([
-      { key: 'host_order_state', value: '%ACT%', opt: 'like' }
-    ]);
+    // onFilterClick?.([
+    //   { key: 'host_order_state', value: '%ACT%', opt: 'like' }
+    // ]);
+
+    // onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ACT' }]));
+    onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ERROR' }]));
+    // onFilterClick?.(filterOperation(fields, [{ key: 'oracle_rn', value: { from: 3, to: 5 } }]));
 
     onFilter([
       // { key: 'name', value: 'as' },
@@ -88,7 +92,7 @@ export default function Table(props) {
           <tr>
             {visibleFields?.map(field => {
               return (
-                <th onClick={onHandleSort(field)} key={field.key}>
+                <th className={field.isMinimumWidth ? 'minimum-width' : ''} onClick={onHandleSort(field)} key={field.key}>
                   {field.title}
                   <span className='arrow-icon'>
                     {field?.sortable && sortCriteria?.field === field.key && getSortIcon(sortCriteria.isAsc)}
