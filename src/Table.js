@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getSortIcon, getNextSortStatus, filterOperation } from './utils';
+import { getNextSortStatus, filterOperation } from './utils';
 import useTable from './TableController';
 import Pagination from './Pagination';
-import { callApiFn } from './services/axiosConfig';
+import ArrowDown from "./icons/ArrowDown";
+import ArrowUp from "./icons/ArrowUp";
 
 export default function Table(props) {
   // config props
@@ -49,8 +50,8 @@ export default function Table(props) {
     // ]);
 
     // onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ACT' }]));
-    onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ERROR' }]));
-    // onFilterClick?.(filterOperation(fields, [{ key: 'oracle_rn', value: { from: 3, to: 5 } }]));
+    // onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ERROR' }]));
+    onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: { from: 3, to: 5 } }]));
 
     onFilter([
       // { key: 'name', value: 'as' },
@@ -91,12 +92,21 @@ export default function Table(props) {
         <thead>
           <tr>
             {visibleFields?.map(field => {
+              const isCurrentField = sortCriteria?.field === field.key;
               return (
-                <th className={field.isMinimumWidth ? 'minimum-width' : ''} onClick={onHandleSort(field)} key={field.key}>
-                  {field.title}
-                  <span className='arrow-icon'>
-                    {field?.sortable && sortCriteria?.field === field.key && getSortIcon(sortCriteria.isAsc)}
-                  </span>
+                <th
+                  className={field.isMinimumWidth ? 'minimum-width' : ''}
+                  onClick={onHandleSort(field)} key={field.key}>
+                  <div className='cel-header'>
+                    <div>
+                      {field.title}
+                    </div>
+                    {field?.sortable &&
+                      <div className='arrow-icon'>
+                        <ArrowUp isActive={isCurrentField && sortCriteria.isAsc} />
+                        <ArrowDown isActive={isCurrentField && typeof sortCriteria.isAsc === 'boolean' && !sortCriteria.isAsc} />
+                      </div>}
+                  </div>
                 </th>
               );
             })}

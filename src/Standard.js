@@ -24,7 +24,10 @@ export default function Home(props) {
         page: pagination.page,
         page_size: pagination.pageSize,
         filters: filterFormat,
-        ...sortCriteria?.field && { sorts: [{ field: sortCriteria?.field, asc: sortCriteria?.isAsc }] }
+        ...sortCriteria?.field && {
+          sorts: [{ field: sortCriteria?.field, asc: sortCriteria?.isAsc }]?.filter(e => e.asc !== undefined)
+        }
+
       };
       console.log('Data before sending request:', params);
       try {

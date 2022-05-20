@@ -25,17 +25,6 @@ function App() {
         sortable: true
       },
       {
-        title: 'oracle_rn',
-        key: 'oracle_rn',
-        isTitle: true,
-        isMinimumWidth: true, // minimum width
-        sortable: true,
-        filterable: {
-          // opt: 'like'  // 'operation' 'like', 'range'
-          opt: 'range'  // 'operation' 'like', 'range'
-        }
-      },
-      {
         title: 'host_order_type',
         key: 'host_order_type',
         isTitle: true,
@@ -48,7 +37,8 @@ function App() {
         sortable: true,
         filterable: {
           // opt: 'like'  // 'operation' 'like', 'range'
-          opt: 'operation'  // 'operation' 'like', 'range'
+          // opt: 'operation'  // 'operation' 'like', 'range'
+          opt: 'range'
         }
       },
       // {

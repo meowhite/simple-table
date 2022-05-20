@@ -1,5 +1,6 @@
 import React from "react";
-export default function ArrowUp(props) {
+export default function ArrowUp({ isActive }) {
+
   return (
     <svg
       width="14"
@@ -7,7 +8,7 @@ export default function ArrowUp(props) {
       viewBox="0 0 8 4"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
-      <path d="M0.710938 3.208L3.91894 0L7.12694 3.208H0.710938Z" fill="#0C2D4D" />
+      <path d="M0.710938 3.208L3.91894 0L7.12694 3.208H0.710938Z" fill={isActive ? '#0C2D4D' : '#8696A6'} />
     </svg>
   );
 }
