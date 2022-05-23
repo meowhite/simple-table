@@ -26,13 +26,13 @@ function App() {
         sortable: true
       },
       {
-        title: 'host_order_type',
+        title: 'Host Order Type',
         key: 'host_order_type',
         isTitle: true,
         sortable: true
       },
       {
-        title: 'host_order_state',
+        title: 'Host Order State',
         key: 'host_order_state',
         isTitle: true,
         sortable: true,
@@ -53,7 +53,7 @@ function App() {
       //   formatter: row => <div>full name: {row?.name} {row?.price}</div>,
       // },
       {
-        title: 'host_order_priority',
+        title: 'Host Order Priority',
         key: 'host_order_priority',
         isMinimumWidth: true, // minimum width
         sortable: true,
