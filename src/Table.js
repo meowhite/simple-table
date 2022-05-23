@@ -7,7 +7,7 @@ import ArrowUp from "./icons/ArrowUp";
 
 export default function Table(props) {
   // config props
-  const { config: { fields, primaryKey, defaultSort, dataSource, dataSource: { isManual } }, data,
+  const { config: { fields, tableTitle, primaryKey, defaultSort, dataSource, dataSource: { isManual } }, data,
     // standard screen props
     paginationOptions, onSortClick, onFilterClick
   } = props;
@@ -88,6 +88,7 @@ export default function Table(props) {
       <button onClick={onHandleSearch}>
         Search with key: cc
       </button>
+      <div className='tb-title'>{tableTitle}</div>
       <table className="fn-table">
         <thead>
           <tr>
@@ -133,7 +134,7 @@ export default function Table(props) {
           onChange={onChangePage}
           page={paginationOptions.page}
           pageSize={paginationOptions.pageSize}
-          pageSizes={[5, 10, 20, 30, 40, 50]}
+          pageSizes={[10, 20, 30, 40, 50]}
           totalItems={paginationOptions.totalItems || tableData?.length}
         />
       </div>

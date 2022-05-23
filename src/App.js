@@ -5,6 +5,7 @@ import Home from './Standard';
 function App() {
 
   const config = {
+    tableTitle: 'Host Order',
     dataSource: {
       api: '/api/report',
       method: 'get',

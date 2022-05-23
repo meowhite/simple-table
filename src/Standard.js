@@ -3,7 +3,7 @@ import { callApiFn, queryTableData } from './services/axiosConfig';
 import Table from './Table';
 
 export default function Home(props) {
-  const { config, config: { fields } } = props;
+  const { config, config: { fields, tableTitle } } = props;
   const [data, setData] = useState([]);
   const [pagination, setPagination] = useState({ page: 1, pageSize: 10, totalItems: 55 });
 

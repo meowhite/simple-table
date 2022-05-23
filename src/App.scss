@@ -1,6 +1,13 @@
 .App {
   background: #FAFAFA;
+  padding: 40px;
+}
 
+.tb-title {
+  font-size: 36px;
+  color: #0D2D4D;
+  font-weight: 400;
+  margin-bottom: 40px;
 }
 
 
@@ -11,6 +18,7 @@
   width: 100%;
   border: 1px solid #F0F0F0;
   background: #ffffff;
+  color: #707070;
 
   .minimum-width {
     width: 1%;
@@ -21,6 +29,8 @@
   thead {
     height: 50px;
     border-bottom: 2px solid #0C2D4D;
+    color: #0C2D4D;
+    cursor: pointer;
   }
 
   th,
@@ -47,13 +57,19 @@
   }
 }
 
+// pagination
 .pagination {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 10px 20px;
+  height: 60px;
+  color: #0C2D4D;
 
   .left {
     display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .right {
@@ -63,25 +79,36 @@
   }
 
   .page-number {
-    margin-right: 10px;
+    height: 30px;
+    margin-right: 20px;
     border: transparent;
+    background: transparent;
+    width: 70px;
+    padding: 0 15px;
+    font: inherit;
+    line-height: inherit;
+    overflow-y: auto;
 
     &:focus {
       outline: none;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 
   .pag-arrow-left {
     display: flex;
     align-items: center;
-    margin: 0 10px;
+    margin: 0 20px;
     cursor: pointer;
   }
 
   .pag-arrow-right {
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 20px;
     cursor: pointer;
   }
 }

@@ -34,9 +34,9 @@ export default function Pagination(props) {
   return (
     <div className='pagination'>
       <div className='left'>
-        <span>Items per page</span>
+        <span>Items per page:</span>
         <select name="pageSizes" value={curPageSize} onChange={onChangePageSize} className='page-number'>
-          {pageSizes?.map(e => <option key={e} value={e}>{e}</option>)}
+          {pageSizes?.map(e => <option className='select-value' key={e} value={e}>{e}</option>)}
         </select>
         <div>
           {(curPage - 1) * curPageSize + 1} - {(curPage * curPageSize) <= totalItems ? (curPage * curPageSize) : totalItems} of {totalItems} items
