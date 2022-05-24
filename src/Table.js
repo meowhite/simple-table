@@ -49,9 +49,9 @@ export default function Table(props) {
     //   { key: 'host_order_state', value: '%ACT%', opt: 'like' }
     // ]);
 
-    onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ACT' }]));
+    // onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ACT' }]));
     // onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ERROR' }]));
-    // onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: { from: 3, to: 5 } }]));
+    onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: { from: 3, to: 5 } }]));
 
     onFilter([
       // { key: 'name', value: 'as' },

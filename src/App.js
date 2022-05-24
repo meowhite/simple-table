@@ -35,7 +35,7 @@ function App() {
         key: 'host_order_state',
         sortable: true,
         filterable: {
-          opt: 'like'  // 'operation' 'like', 'range'
+          opt: 'range'  // 'operation' 'like', 'range'
           // opt: 'operation'  // 'operation' 'like', 'range'
         }
       },

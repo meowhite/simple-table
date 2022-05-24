@@ -14,7 +14,7 @@ export default function Home(props) {
   useEffect(() => {
     const getData = async () => {
       const { method, api, tableAdditionInfo = {} } = config?.dataSource;
-      const filterFormat = filterCriteria?.map(e => ({ ...e, field: e.key, val: e.value }));
+      const filterFormat = filterCriteria?.map(e => ({ ...e, field: e.key, vals: e.value }));
       const params = {
         ...tableAdditionInfo,
         default_sorts: [{

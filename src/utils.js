@@ -117,13 +117,7 @@ const filterCases = (type, ele) => {
       return ([
         {
           ...ele,
-          value: ele.value?.from?.toString(),
-          "opt": ">=",
-        },
-        {
-          ...ele,
-          value: ele.value?.to?.toString(),
-          "opt": "<=",
+          value: [ele.value?.from?.toString(), ele.value?.to?.toString()],
         }
       ]);
 
