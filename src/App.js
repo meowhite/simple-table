@@ -9,7 +9,7 @@ function App() {
     dataSource: {
       api: '/api/report',
       method: 'get',
-      isManual: true,
+      serverSide: true,
       tableAdditionInfo: {
         "tbl": "host_order",
         "meta": {
@@ -28,18 +28,15 @@ function App() {
       {
         title: 'Host Order Type',
         key: 'host_order_type',
-        isTitle: true,
         sortable: true
       },
       {
         title: 'Host Order State',
         key: 'host_order_state',
-        isTitle: true,
         sortable: true,
         filterable: {
-          // opt: 'like'  // 'operation' 'like', 'range'
+          opt: 'like'  // 'operation' 'like', 'range'
           // opt: 'operation'  // 'operation' 'like', 'range'
-          opt: 'range'
         }
       },
       // {
@@ -57,7 +54,6 @@ function App() {
         key: 'host_order_priority',
         isMinimumWidth: true, // minimum width
         sortable: true,
-        isTagline: true,
       },
       {
         title: 'host_order_number',

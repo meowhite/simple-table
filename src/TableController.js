@@ -11,7 +11,7 @@ import {
 } from './utils';
 
 export default function TableController(params = {}) {
-  const { data, fields, defaultSort, defaultPagination, defaultFilter, isManual } = params;
+  const { data, fields, defaultSort, defaultPagination, defaultFilter, serverSide } = params;
   const [visibleFields, setVisibleFields] = useState(fields?.filter(e => !e.isInvisible));
   const [tableData, setTableData] = useState(dataFieldFormatter(data, visibleFields) || []);
   const [itemsToDisplay, setItemsToDisplay] = useState([]);
@@ -28,19 +28,19 @@ export default function TableController(params = {}) {
 
   // handle pagination
   useEffect(() => {
-    setItemsToDisplay(isManual ? tableData : handleItemsToDisplay(tableData, pagination?.page, pagination?.pageSize));
+    setItemsToDisplay(serverSide ? tableData : handleItemsToDisplay(tableData, pagination?.page, pagination?.pageSize));
   }, [tableData, pagination]);
 
   // handle sort
   useEffect(() => {
     const baseData = dataChaining(data).onFilter(filterCriteria).onSearch(searchCriteria).valueOf();
-    setTableData(isManual ? tableData : handleSort(baseData, sortCriteria));
+    setTableData(serverSide ? tableData : handleSort(baseData, sortCriteria));
   }, [sortCriteria]);
 
   // handle filter
   useEffect(() => {
     const baseData = dataChaining(data).onSort(sortCriteria).onSearch(searchCriteria).valueOf();
-    setTableData(isManual ? tableData : handleFilter(baseData, filterCriteria));
+    setTableData(serverSide ? tableData : handleFilter(baseData, filterCriteria));
   }, [filterCriteria]);
 
   // handle search

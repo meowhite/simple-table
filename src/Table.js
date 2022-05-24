@@ -7,7 +7,7 @@ import ArrowUp from "./icons/ArrowUp";
 
 export default function Table(props) {
   // config props
-  const { config: { fields, tableTitle, primaryKey, defaultSort, dataSource, dataSource: { isManual } }, data,
+  const { config: { fields, tableTitle, primaryKey, defaultSort, dataSource, dataSource: { serverSide } }, data,
     // standard screen props
     paginationOptions, onSortClick, onFilterClick
   } = props;
@@ -25,7 +25,7 @@ export default function Table(props) {
     handlePagination,
     onSetVisibleFields,
     onSetTableData
-  } = useTable({ data, fields, defaultSort, isManual });
+  } = useTable({ data, fields, defaultSort, serverSide });
 
   const [searchValue, setSearchValue] = useState('');
 
@@ -49,9 +49,9 @@ export default function Table(props) {
     //   { key: 'host_order_state', value: '%ACT%', opt: 'like' }
     // ]);
 
-    // onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ACT' }]));
+    onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ACT' }]));
     // onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: 'ERROR' }]));
-    onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: { from: 3, to: 5 } }]));
+    // onFilterClick?.(filterOperation(fields, [{ key: 'host_order_state', value: { from: 3, to: 5 } }]));
 
     onFilter([
       // { key: 'name', value: 'as' },
@@ -83,7 +83,7 @@ export default function Table(props) {
     <div>
       <div>Monthly Budget</div>
       <div onClick={onHideField}>set show only 2 fields: ['host_order_state', 'host_order_priority']</div>
-      <div onClick={onHandleFilter}>Filter email: get id from 3 to 28</div>
+      <div onClick={onHandleFilter}>Filter  host_order_state with value: ACT</div>
       <input value={searchValue} onChange={onChangeSearch} />
       <button onClick={onHandleSearch}>
         Search with key: cc
