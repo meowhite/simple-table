@@ -81,13 +81,13 @@ export default function Table(props) {
 
   return (
     <div>
-      <div>Monthly Budget</div>
+      {/* <div>Monthly Budget</div>
       <div onClick={onHideField}>set show only 2 fields: ['host_order_state', 'host_order_priority']</div>
       <div onClick={onHandleFilter}>Filter  host_order_state with value: ACT</div>
       <input value={searchValue} onChange={onChangeSearch} />
       <button onClick={onHandleSearch}>
         Search with key: cc
-      </button>
+      </button> */}
       <div className='tb-title'>{tableTitle}</div>
       <table className="fn-table">
         <thead>
