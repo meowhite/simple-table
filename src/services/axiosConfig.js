@@ -2,7 +2,7 @@ import { create } from 'axios';
 import { string2Base64 } from '../utils';
 
 const instance = create({
-  baseURL: `http://192.168.56.101:8080`,
+  baseURL: process.env.REACT_APP_BACKEND_ENDPOINT,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
